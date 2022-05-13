@@ -1,0 +1,15 @@
+name: Setup sd
+description: Set up a specific version of sd
+author: Kenji Miyake
+inputs:
+  version:
+    required: false
+    description: The version of sd
+    default: latest
+  target-platform:
+    required: false
+    description: The target platform
+    default: x86_64-unknown-linux-gnu
+runs:
+  using: node16
+  main: dist/index.js
