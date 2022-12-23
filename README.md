@@ -20,12 +20,6 @@ jobs:
           sd before after
 ```
 
-## Inputs
+## Action inputs and outputs
 
-| Name    | Required | Description          |
-| ------- | -------- | -------------------- |
-| version | false    | The version of `sd`. |
-
-## Outputs
-
-None.
+Refer to [action.yaml](./action.yaml).
