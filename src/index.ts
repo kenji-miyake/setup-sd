@@ -29,10 +29,11 @@ async function main() {
       url += ".tar.gz";
     }
     
-    const binPath = await tc.downloadTool(url);
+    let binPath = await tc.downloadTool(url);
 
     if (!isVersionPreVersion1) {
-      await exec(`tar xvf ${binPath}/sd-v1.0.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1`);
+      binPath = await tc.extractTar(binPath);
+      binPath = `${binPath}/sd-v${version}-${targetPlatform}/sd`;
     } 
 
     cachedPath = await tc.cacheFile(binPath, "sd", "sd", version);
