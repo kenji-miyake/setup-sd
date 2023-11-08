@@ -31,9 +31,12 @@ async function main() {
     
     let binPath = await tc.downloadTool(url);
 
+    // Because we downloaded a .tar.gz, we must extract it and then find the sd binary file within the extracted directory    
     if (!isVersionPreVersion1) {
-      binPath = await tc.extractTar(binPath);
-      binPath = `${binPath}/sd-v${version}-${targetPlatform}/sd`;
+      const extractedTarDestination = await tc.extractTar(binPath);
+
+      // Update binPath to point to the sd binary file within the extracted directory
+      binPath = `${extractedTarDestination}/sd-v${version}-${targetPlatform}/sd`;
     } 
 
     cachedPath = await tc.cacheFile(binPath, "sd", "sd", version);
