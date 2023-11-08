@@ -13284,16 +13284,20 @@ async function main() {
         });
         version = latestRelease.data.tag_name.replace("v", "");
     }
+    const isVersionPreVersion1 = version.startsWith("0.");
     const targetPlatform = core.getInput("target-platform");
     let cachedPath = tc.find("sd", version);
     if (!cachedPath) {
         let url = `https://github.com/chmln/sd/releases/download/v${version}/sd-v${version}-${targetPlatform}`;
         // sd began adding a file extension starting on version v1.0.0
         // Add the file extension unless the version is < v1.0.0
-        if (!version.startsWith("0.")) {
+        if (!isVersionPreVersion1) {
             url += ".tar.gz";
         }
         const binPath = await tc.downloadTool(url);
+        if (!isVersionPreVersion1) {
+            await (0, child_process_1.exec)(`tar xvf ${binPath}/sd-v1.0.0-x86_64-unknown-linux-gnu.tar.gz --strip-components=1`);
+        }
         cachedPath = await tc.cacheFile(binPath, "sd", "sd", version);
     }
     await (0, child_process_1.exec)(`chmod +x ${cachedPath}/sd`);
