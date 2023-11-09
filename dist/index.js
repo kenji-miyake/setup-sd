@@ -33898,7 +33898,7 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const child_process_1 = __nccwpck_require__(2081);
+const path = __nccwpck_require__(1017);
 const core = __nccwpck_require__(2186);
 const tc = __nccwpck_require__(7784);
 const rest_1 = __nccwpck_require__(5375);
@@ -33912,26 +33912,15 @@ async function main() {
         });
         version = latestRelease.data.tag_name.replace("v", "");
     }
-    const isVersionPreVersion1 = version.startsWith("0.");
     const targetPlatform = core.getInput("target-platform");
     let cachedPath = tc.find("sd", version);
     if (!cachedPath) {
-        let url = `https://github.com/chmln/sd/releases/download/v${version}/sd-v${version}-${targetPlatform}`;
-        // sd began adding a file extension starting on version v1.0.0
-        // Add the file extension unless the version is < v1.0.0
-        if (!isVersionPreVersion1) {
-            url += ".tar.gz";
-        }
-        let binPath = await tc.downloadTool(url);
-        // Because we downloaded a .tar.gz, we must extract it and then find the sd binary file within the extracted directory
-        if (!isVersionPreVersion1) {
-            const extractedTarDestination = await tc.extractTar(binPath);
-            // Update binPath to point to the sd binary file within the extracted directory
-            binPath = `${extractedTarDestination}/sd-v${version}-${targetPlatform}/sd`;
-        }
-        cachedPath = await tc.cacheFile(binPath, "sd", "sd", version);
+        const url = `https://github.com/chmln/sd/releases/download/v${version}/sd-v${version}-${targetPlatform}.tar.gz`;
+        const tarPath = await tc.downloadTool(url);
+        const extractedFolder = await tc.extractTar(tarPath, "/tmp/sd");
+        const binFolder = path.join(extractedFolder, `sd-v${version}-${targetPlatform}/sd`);
+        cachedPath = await tc.cacheDir(binFolder, "sd", version);
     }
-    await (0, child_process_1.exec)(`chmod +x ${cachedPath}/sd`);
     core.addPath(cachedPath);
 }
 try {
