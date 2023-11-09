@@ -6,7 +6,7 @@
     - source: .github/workflows/spell-check-differential.yaml
     - source: .github/workflows/sync-files.yaml
       pre-commands: |
-        sd "tag:" ""
+        sd "tag:" ""  {source}
     - source: .markdownlint.yaml
     - source: .prettierignore
     - source: .prettierrc.yaml
