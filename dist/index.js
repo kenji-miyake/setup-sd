@@ -33918,7 +33918,7 @@ async function main() {
         const url = `https://github.com/chmln/sd/releases/download/v${version}/sd-v${version}-${targetPlatform}.tar.gz`;
         const tarPath = await tc.downloadTool(url);
         const extractedFolder = await tc.extractTar(tarPath, "/tmp/sd");
-        const binFolder = path.join(extractedFolder, `sd-v${version}-${targetPlatform}/sd`);
+        const binFolder = path.join(extractedFolder, `sd-v${version}-${targetPlatform}`);
         cachedPath = await tc.cacheDir(binFolder, "sd", version);
     }
     core.addPath(cachedPath);
