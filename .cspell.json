@@ -1,13 +1,8 @@
 {
-    "overrides": [
-        {
-          "filename": "**/cliff.toml",
-          "ignoreRegExpList": [
-            "endmacro",
-            "endraw",
-            "postprocessors",
-            "striptags"
-          ]
-        }
-    ]
+  "overrides": [
+    {
+      "filename": "**/cliff.toml",
+      "ignoreRegExpList": ["endmacro", "endraw", "postprocessors", "striptags"]
+    }
+  ]
 }
